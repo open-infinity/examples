@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>open-infinity-parent</artifactId>
+		<groupId>org.openinfinity</groupId>
+		<version>2.0.0</version>
+	</parent>
+	<groupId>org.openinfinity</groupId>
+	<artifactId>domain</artifactId>
+	<version>2.0.0</version>
+	<packaging>war</packaging>
+	<properties>
+		<sp1.host>10.33.208.14</sp1.host>
+		<sp.keyfile>C:/cloudkeys/instance738.key</sp.keyfile>
+		<!--sp1.host>10.33.208.109</sp1.host>
+		<sp.keyfile>/Users/leinpilk/Downloads/instance720.key</sp.keyfile-->
+		<sp.deployDir>/opt/openinfinity/2.0.0/tomcat/webapps/</sp.deployDir>
+		<org.slf4j-version>1.5.10</org.slf4j-version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.openinfinity</groupId>
+			<artifactId>facade</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warName>domainservices</warName>
+				</configuration>
+			</plugin>
+			<!-- Deployment target defined in properties. -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<!-- Uncomment execution element if you want to automatically deploy 
+					application in install -build phase -->
+				<executions>
+					<execution>
+						<id>deploy-war</id>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<target>
+						<scp
+							localFile="${project.build.directory}/domainservices.war"
+							remoteTodir="root@${sp1.host}:${sp.deployDir}" trust="true"
+							keyfile="${sp.keyfile}" />
+						<!-- Define scp tasks for all cluster members -->
+						<!-- <scp localFile="${project.build.directory}/${project.build.finalName}.war" 
+							remoteTodir="root@${sp2.host}:${sp.deployDir}" trust="true" keyfile="${sp.keyfile}" 
+							verbose="true"/> -->
+					</target>
+				</configuration>
+				<!-- </execution> </executions> -->
+				<dependencies>
+					<dependency>
+						<groupId>com.jcraft</groupId>
+						<artifactId>jsch</artifactId>
+						<version>0.1.42</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-jsch</artifactId>
+						<version>1.8.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>
