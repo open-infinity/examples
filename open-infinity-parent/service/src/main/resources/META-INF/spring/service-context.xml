@@ -11,14 +11,16 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<beans:import resource="classpath*:META-INF/spring/mongo-repository-context.xml"/> 
-	<!-- <beans:import resource="classpath*:META-INF/spring/jpa-repository-context.xml"/>  -->
 
 	<beans:bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<beans:property name="locations">
 			<beans:list>
 				<beans:value>
-					classpath:/META-INF/properties/logging.properties
+					classpath*:/META-INF/properties/logging.properties
+				</beans:value>
+				<beans:value>
+					classpath*:/META-INF/properties/repository.properties
 				</beans:value>
 			</beans:list>
 		</beans:property>

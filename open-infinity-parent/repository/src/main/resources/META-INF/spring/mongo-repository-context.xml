@@ -16,7 +16,7 @@
 
 	<mongo:repositories base-package="org.openinfinity.domain.repository" />
 
-	<mongo:db-factory host="ec2-54-216-33-249.eu-west-1.compute.amazonaws.com" port="27017" dbname="open-infinity-shoppinglist-db" />
+	<mongo:db-factory host="${openinfinity.mongo.host}" port="${openinfinity.mongo.port}" dbname="${openinfinity.mongo.db.name}" />
 
 	<beans:bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 	  <beans:constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
